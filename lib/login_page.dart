@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'signup_page.dart';
+import '../pages/landing.dart';
 
 class LoginPage extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -30,7 +31,10 @@ class LoginPage extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF27EF9E), Color(0xFF0BB4E3)], // Updated gradient
+                  colors: [
+                    Color(0xFF27EF9E),
+                    Color(0xFF0BB4E3)
+                  ], // Updated gradient
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.0, 1.0],
@@ -43,7 +47,13 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
                         child: Text(
                           "Log in",
                           style: TextStyle(
@@ -59,7 +69,8 @@ class LoginPage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUpPage()),
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()),
                           );
                         },
                         child: Text(
@@ -99,7 +110,8 @@ class LoginPage extends StatelessWidget {
                   border: InputBorder.none,
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 ),
               ),
             ),
@@ -118,7 +130,8 @@ class LoginPage extends StatelessWidget {
                   border: InputBorder.none,
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   suffixIcon: Icon(Icons.visibility),
                 ),
               ),
@@ -150,7 +163,13 @@ class LoginPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("Login Button Pressed");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Landing()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF27EF9E), // Same gradient color
                   minimumSize: Size(double.infinity, 45),
@@ -158,7 +177,7 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   "Login",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
