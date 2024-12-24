@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/searchMap.dart';
+import 'searchMap.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
