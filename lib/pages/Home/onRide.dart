@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import '../pages/payment.dart';
+import 'payment.dart';
 
 class BikeRideTracker extends StatefulWidget {
   @override
