@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:myapp/services/database.dart';
 import 'payment.dart';
 
 class BikeRideTracker extends StatefulWidget {
@@ -29,6 +30,33 @@ class _BikeRideTrackerState extends State<BikeRideTracker> {
         currentLocation,
       );
     });
+  }
+
+  Future<void> _finishRide() async {
+    String bikeId = 'bike123'; // Replace with the actual bike ID
+    String newStatus = 'locked'; // New status for the bike lock
+    String newCommand = 'unlock'; // New command for the bike lock
+
+    // Update the bike lock status in Firestore
+    await DatabaseService().updateBikeLock(bikeId, newStatus, newCommand);
+
+    // Show a Snackbar to inform the user that the ride has finished
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Ride Finished!"),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+
+    // Delay for a short period to allow the Snackbar to be visible
+    await Future.delayed(Duration(seconds: 2));
+
+    // Navigate to the PaymentPage
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PaymentPage()),
+    );
   }
 
   @override
@@ -155,34 +183,7 @@ class _BikeRideTrackerState extends State<BikeRideTracker> {
                     ),
                     // Finish Button
                     ElevatedButton(
-                      onPressed: () {
-                        // Finish action
-                        print("clicked");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "Ride Finished!",
-                              style:
-                                  TextStyle(color: Colors.white), // Text color
-                            ),
-                            backgroundColor: Colors.green, // Background color
-                            behavior: SnackBarBehavior.floating,
-                            // margin: EdgeInsets.only(
-                            //   top: 20.0, // Position at the top
-                            //   left: 16.0,
-                            //   right: 16.0,
-                            // ),
-                            // duration: Duration(seconds: 2), // SnackBar duration
-                          ),
-                        );
-                        Future.delayed(Duration(seconds: 2), () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentPage()),
-                          );
-                        });
-                      },
+                      onPressed: _finishRide,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF8debde),
                         shape: RoundedRectangleBorder(

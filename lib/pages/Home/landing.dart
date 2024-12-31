@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/models/bike.dart';
+import 'package:myapp/pages/Home/onRide.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/services/database.dart';
 import 'package:myapp/models/user.dart';
@@ -122,8 +124,42 @@ class Landing extends StatelessWidget {
                           ),
                           Spacer(),
                           GestureDetector(
-                            onTap: () {
-                              // Add your desired functionality here
+                            onTap: () async {
+                              String bikeId =
+                                  'bike123'; // Replace with the actual bike ID
+                              String newStatus =
+                                  'unlocked'; // New status for the bike lock
+                              String newCommand =
+                                  'lock'; // New command for the bike lock
+
+                              // Update the bike lock status in Firestore
+                              await DatabaseService().updateBikeLock(
+                                  bikeId, newStatus, newCommand);
+
+                              // Fetch the updated bike data to check the lock status
+                              Bike? bike = await DatabaseService()
+                                  .getBikeData(bikeId)
+                                  .first;
+
+                              if (bike != null &&
+                                  bike.lock?.status == newStatus) {
+                                // Navigate to the BikeRideTracker page if the lock status change was successful
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BikeRideTracker()),
+                                );
+                              } else {
+                                // Show an error message if the lock status change failed
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "Failed to unlock the bike. Please try again."),
+                                    backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
 
                               print("Unlock Bike button tapped!");
                             },
