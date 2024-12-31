@@ -40,11 +40,15 @@ class Lock {
   final String status; // locked/unlocked
   final String command; // lock/unlock
   final int lastUpdated; // Timestamp
+  final double latitude; // Latitude of the lock
+  final double longitude; // Longitude of the lock
 
   Lock({
     required this.status,
     required this.command,
     required this.lastUpdated,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory Lock.fromJson(Map<String, dynamic> json) {
@@ -52,6 +56,8 @@ class Lock {
       status: json['status'],
       command: json['command'],
       lastUpdated: json['lastUpdated'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 
@@ -60,6 +66,8 @@ class Lock {
       'status': status,
       'command': command,
       'lastUpdated': lastUpdated,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }
