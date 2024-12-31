@@ -6,31 +6,22 @@ class PaymentPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Payment',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Image.asset(
+          'assets/images/Asset 1.png',
+          fit: BoxFit.contain,
+          height: 50, // Adjust logo size as needed
         ),
         centerTitle: true,
-        flexibleSpace: Container(
-          height: 255,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.teal, Colors.greenAccent],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.0, 1.0],
+        flexibleSpace: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xFF0BB4E3), // Reverse the gradient colors
+                Color(0xFF27EF9E),
+              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
             ),
           ),
         ),
-        toolbarHeight: 100.0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

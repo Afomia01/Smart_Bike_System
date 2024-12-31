@@ -36,80 +36,32 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/images/Asset 1.png',
+          fit: BoxFit.contain,
+          height: 50, // Adjust logo size as needed
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          width: double.infinity,
+          height: 120,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF27EF9E),
+                Color(0xFF0BB4E3)
+              ], // Updated gradient
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.0, 1.0],
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Top Gradient Header
-            Container(
-              width: double.infinity,
-              height: 120,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF27EF9E),
-                    Color(0xFF0BB4E3)
-                  ], // Updated gradient
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 1.0],
-                ),
-              ),
-              child: Form(
-                key: widget._formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Email",
-                          hintText: "Enter your email",
-                          hintStyle: TextStyle(color: Colors.white70),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          labelStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        },
-                        validator: (val) => val!.isEmpty ? 'Enter an email' : null,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Password",
-                          hintText: "Enter your password",
-                          hintStyle: TextStyle(color: Colors.white70),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          labelStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        obscureText: true,
-                        onChanged: (val) {
-                          setState(() => password = val);
-                        },
-                        validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            // Welcome Message
             const Text(
               "Hi, Welcome Back! 👋",
               style: TextStyle(
@@ -117,7 +69,115 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            // Top Gradient Header
+            const SizedBox(
+              height: 30,
+            ),
+            Container(
+              child: Form(
+                key: widget._formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(children: [
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Email",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14)),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: "Enter your email",
+                              hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16),
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              labelStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            onChanged: (val) {
+                              setState(() => email = val);
+                            },
+                            validator: (val) =>
+                                val!.isEmpty ? 'Enter an email' : null,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ])),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Password",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                hintText: "Enter your password",
+                                hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16),
+                                filled: true,
+                                fillColor: Colors.transparent,
+                                labelStyle: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              obscureText: true,
+                              onChanged: (val) {
+                                setState(() => password = val);
+                              },
+                              validator: (val) => val!.length < 6
+                                  ? 'Enter a password 6+ chars long'
+                                  : null,
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             // Remember Me & Forgot Password
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -137,26 +197,30 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             // Login Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
                 onPressed: () async {
                   if (widget._formKey.currentState!.validate()) {
-                    dynamic result = await widget._auth.signInWithEmailAndPassword(email, password);
+                    dynamic result = await widget._auth
+                        .signInWithEmailAndPassword(email, password);
                     if (result == null) {
-                      setState(() => error = 'Could not sign in with those credentials');
+                      setState(() =>
+                          error = 'Could not sign in with those credentials');
                     } else {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const Landing()),
+                        MaterialPageRoute(
+                            builder: (context) => const Landing()),
                       );
                     }
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF27EF9E), // Same gradient color
+                  backgroundColor:
+                      const Color(0xFF27EF9E), // Same gradient color
                   minimumSize: const Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -168,8 +232,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 20),
             // Or With Separator
+            Text(
+              error,
+              style: const TextStyle(color: Colors.red, fontSize: 14),
+            ),
             const Row(
               children: [
                 Expanded(child: Divider()),
@@ -180,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                 Expanded(child: Divider()),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 25),
             // Social Login Button (Google)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -194,9 +262,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   side: const BorderSide(color: Colors.grey),
                 ),
-                icon: Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
-                  height: 20,
+                icon: const Icon(
+                  Icons.g_mobiledata,
+                  size: 40,
+                  color: Colors.blue,
                 ),
                 label: const Text(
                   "Login with Google",
@@ -204,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 25),
             // Don't Have an Account? Sign Up
             TextButton(
               onPressed: () {
@@ -217,17 +286,16 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextSpan(
                       text: "Sign Up",
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            Text(
-              error,
-              style: const TextStyle(color: Colors.red, fontSize: 14),
-            ),
           ],
         ),
       ),

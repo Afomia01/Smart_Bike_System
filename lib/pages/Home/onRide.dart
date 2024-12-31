@@ -34,7 +34,24 @@ class _BikeRideTrackerState extends State<BikeRideTracker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/images/Asset 1.png',
+          fit: BoxFit.contain,
+          height: 50, // Adjust logo size as needed
+        ),
+        centerTitle: true,
+        flexibleSpace: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xFF0BB4E3), // Reverse the gradient colors
+                Color(0xFF27EF9E),
+              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           // Map

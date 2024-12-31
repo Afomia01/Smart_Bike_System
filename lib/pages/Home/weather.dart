@@ -37,6 +37,7 @@ class _WeatherCardState extends State<WeatherCard> {
           condition = data['current']['condition']['text'];
           location = data['location']['name'];
         });
+        print('location: $location');
       } else {
         setState(() {
           condition = "Error fetching data";
@@ -107,7 +108,8 @@ class _WeatherCardState extends State<WeatherCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 getWeatherIcon(
                     double.tryParse(temperature.replaceAll('°C', '')) ?? 0),
@@ -137,9 +139,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       ],
                     ),
                     Container(
-                      height: 1,
-                      color: Colors.black54,
-                      margin: EdgeInsets.symmetric(vertical: 8),
+                      margin: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         location,
                         style: TextStyle(

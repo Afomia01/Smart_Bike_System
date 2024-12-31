@@ -24,15 +24,53 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF27EF9E), Color(0xFF0BB4E3)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.0, 1.0],
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/images/Asset 1.png',
+          fit: BoxFit.contain,
+          height: 50, // Adjust logo size as needed
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          width: double.infinity,
+          height: 120,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF27EF9E), Color(0xFF0BB4E3)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.0, 1.0],
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  widget.toggleView();
+                },
+                child: const Text(
+                  "Log in",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              const Text(
+                "Sign up",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
+      ),
+      body: Container(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -41,48 +79,34 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          widget.toggleView();
-                        },
-                        child: const Text(
-                          "Log in",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        "Sign up",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 40),
-                  const Text(
-                    "Create an account",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  const Center(
+                    child: Text(
+                      "Create an account",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                  _buildInputField("Enter Your Username", (val) => name = val, "Please enter your username"),
+                  _buildInputField("Enter Your Username", (val) => name = val,
+                      "Please enter your username"),
                   const SizedBox(height: 20),
-                  _buildInputField("Enter Your Email", (val) => email = val, "Please enter a valid email", isEmail: true),
+                  _buildInputField("Enter Your Email", (val) => email = val,
+                      "Please enter a valid email",
+                      isEmail: true),
                   const SizedBox(height: 20),
-                  _buildInputField("Enter Your Phone Number", (val) => phoneNumber = val, "Please enter your phone number"),
+                  _buildInputField(
+                      "Enter Your Phone Number",
+                      (val) => phoneNumber = val,
+                      "Please enter your phone number"),
                   const SizedBox(height: 20),
-                  _buildInputField("Enter Your Password", (val) => password = val, "Please enter a password 6+ chars long", isPassword: true),
+                  _buildInputField(
+                      "Enter Your Password",
+                      (val) => password = val,
+                      "Please enter a password 6+ chars long",
+                      isPassword: true),
                   const SizedBox(height: 30),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -94,11 +118,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        dynamic result = await _auth.registerWithEmailAndPassword(name, phoneNumber, email, password);
+                        dynamic result =
+                            await _auth.registerWithEmailAndPassword(
+                                name, phoneNumber, email, password);
                         if (result == null) {
                           setState(() => error = 'Please supply a valid email');
                         } else {
-                          await DatabaseService(uid: result.uid).updateUserData(name, phoneNumber, email, password);
+                          await DatabaseService(uid: result.uid).updateUserData(
+                              name, phoneNumber, email, password);
                           Navigator.pushReplacementNamed(context, '/home');
                         }
                       }
@@ -143,7 +170,9 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildInputField(String hintText, Function(String) onChanged, String validatorMessage, {bool isPassword = false, bool isEmail = false}) {
+  Widget _buildInputField(
+      String hintText, Function(String) onChanged, String validatorMessage,
+      {bool isPassword = false, bool isEmail = false}) {
     return TextFormField(
       obscureText: isPassword,
       decoration: InputDecoration(
@@ -152,9 +181,10 @@ class _SignUpPageState extends State<SignUpPage> {
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: Colors.grey),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       ),
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       validator: (val) => val!.isEmpty ? validatorMessage : null,

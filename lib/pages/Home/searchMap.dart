@@ -63,10 +63,25 @@ class _MapWithRouteState extends State<MapWithRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map Route Example'),
+        title: Image.asset(
+          'assets/images/Asset 1.png',
+          fit: BoxFit.contain,
+          height: 50, // Adjust logo size as needed
+        ),
+        centerTitle: true,
+        flexibleSpace: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xFF0BB4E3), // Reverse the gradient colors
+                Color(0xFF27EF9E),
+              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+            ),
+          ),
+        ),
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(color: Colors.teal))
           : FlutterMap(
               options: MapOptions(
                 center: startPoint,

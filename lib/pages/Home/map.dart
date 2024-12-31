@@ -25,17 +25,22 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Map'),
+          title: Image.asset(
+            'assets/images/Asset 1.png',
+            fit: BoxFit.contain,
+            height: 50, // Adjust logo size as needed
+          ),
           centerTitle: true,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.teal, Colors.greenAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0.0, 1.0],
+          flexibleSpace: SafeArea(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color(0xFF0BB4E3), // Reverse the gradient colors
+                  Color(0xFF27EF9E),
+                ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
               ),
             ),
           ),
@@ -46,58 +51,61 @@ class _MapScreenState extends State<MapScreen> {
             },
           ),
         ),
-        body: FlutterMap(
-          options: MapOptions(
-            center: bikeCurrentLocation, // Center on Addis Ababa
-            zoom: 18.0,
-          ),
-          children: [
-            TileLayer(
-              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              subdomains: ['a', 'b', 'c'],
+        body: SafeArea(
+          child: FlutterMap(
+            options: MapOptions(
+              center: bikeCurrentLocation, // Center on Addis Ababa
+              zoom: 18.0,
             ),
-            // Bike Station Markers
-            MarkerLayer(
-              markers: bikeStations.map((station) {
-                return Marker(
-                  point: station["location"] as LatLng,
-                  builder: (ctx) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        color: Color(0xFF27EF9E),
-                        size: 30.0,
-                      ),
-                      // Text(
-                      //   station["name"],
-                      //   style: const TextStyle(
-                      //     color: Colors.black,
-                      //     fontSize: 9.0,
-                      //     fontWeight: FontWeight.w400,
-                      //   ),
-                      //   textAlign: TextAlign.start,
-                      // ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+            children: [
+              TileLayer(
+                urlTemplate:
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: ['a', 'b', 'c'],
+              ),
+              // Bike Station Markers
+              MarkerLayer(
+                markers: bikeStations.map((station) {
+                  return Marker(
+                    point: station["location"] as LatLng,
+                    builder: (ctx) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Color(0xFF27EF9E),
+                          size: 30.0,
+                        ),
+                        // Text(
+                        //   station["name"],
+                        //   style: const TextStyle(
+                        //     color: Colors.black,
+                        //     fontSize: 9.0,
+                        //     fontWeight: FontWeight.w400,
+                        //   ),
+                        //   textAlign: TextAlign.start,
+                        // ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
 
-            // Real-Time Bike Marker
-            MarkerLayer(
-              markers: [
-                Marker(
-                  point: bikeCurrentLocation,
-                  builder: (ctx) => const Icon(
-                    Icons.directions_bike,
-                    color: Colors.blue,
-                    size: 30.0,
+              // Real-Time Bike Marker
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: bikeCurrentLocation,
+                    builder: (ctx) => const Icon(
+                      Icons.directions_bike,
+                      color: Colors.blue,
+                      size: 30.0,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
