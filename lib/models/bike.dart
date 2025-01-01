@@ -1,3 +1,5 @@
+import 'package:myapp/models/lock.dart'; // Import the Lock model
+
 class Bike {
   final String id;
   final String userId; // Owner or current user of the bike
@@ -32,34 +34,6 @@ class Bike {
       'location': location,
       'isAvailable': isAvailable,
       'lock': lock?.toJson(),
-    };
-  }
-}
-
-class Lock {
-  final String status; // locked/unlocked
-  final String command; // lock/unlock
-  final int lastUpdated; // Timestamp
-
-  Lock({
-    required this.status,
-    required this.command,
-    required this.lastUpdated,
-  });
-
-  factory Lock.fromJson(Map<String, dynamic> json) {
-    return Lock(
-      status: json['status'],
-      command: json['command'],
-      lastUpdated: json['lastUpdated'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'command': command,
-      'lastUpdated': lastUpdated,
     };
   }
 }

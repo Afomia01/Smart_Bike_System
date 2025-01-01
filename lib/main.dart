@@ -10,7 +10,20 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyBRsUZ_eSwPBE5vWJFal-aTGobZB0st1oc",
+        appId: "1:291794812913:android:8698b45a323f1efe840e50",
+        messagingSenderId: "291794812913",
+        projectId: "smart-bike-system-7565b",
+        databaseURL: "https://smart-bike-system-7565b-default-rtdb.firebaseio.com",
+      ),
+    );
+    print('Initialized Firebase');
+  } catch (e) {
+    print('Failed to initialize Firebase: $e');
+  }
   runApp(MyApp());
 }
 

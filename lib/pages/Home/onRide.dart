@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/services/database.dart';
+import 'package:myapp/models/lock.dart';
 import 'payment.dart';
 
 class BikeRideTracker extends StatefulWidget {
@@ -34,29 +35,59 @@ class _BikeRideTrackerState extends State<BikeRideTracker> {
 
   Future<void> _finishRide() async {
     String bikeId = 'bike123'; // Replace with the actual bike ID
-    String newStatus = 'locked'; // New status for the bike lock
-    String newCommand = 'unlock'; // New command for the bike lock
-
-    // Update the bike lock status in Firestore
-    await DatabaseService().updateBikeLock(bikeId, newStatus, newCommand);
-
-    // Show a Snackbar to inform the user that the ride has finished
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Ride Finished!"),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-      ),
+    Lock newLock = Lock(
+      status: 'locked',
+      command: 'lock',
+      lastUpdated: DateTime.now().millisecondsSinceEpoch,
     );
 
-    // Delay for a short period to allow the Snackbar to be visible
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      // Update the bike lock status in Realtime Database
+      await DatabaseService().updateBikeLock(bikeId, newLock);
 
-    // Navigate to the PaymentPage
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PaymentPage()),
-    );
+      // Fetch the updated bike lock status to check the lock status
+      DatabaseService().getBikeLockStatus(bikeId).first.then((lockStatus) {
+        if (lockStatus != null && lockStatus.status == newLock.status) {
+          // Show a Snackbar to inform the user that the ride has finished
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Ride Finished!"),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+
+          // Delay for a short period to allow the Snackbar to be visible
+          Future.delayed(Duration(seconds: 2), () {
+            // Navigate to the PaymentPage
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PaymentPage()),
+            );
+          });
+        } else {
+          // Show an error message if the lock status change failed
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Failed to lock the bike. Please try again."),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      });
+    } catch (e) {
+      // Show an error message if there's an exception
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("An error occurred: $e"),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
+    print("Finish Ride button tapped!");
   }
 
   @override
